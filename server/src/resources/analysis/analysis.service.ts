@@ -105,7 +105,20 @@ class AnalysisService {
             input.income[max.row][max.col] = -Infinity; 
             output.push(step);      
         }
-
+        const lastStep = (JSON.parse(JSON.stringify(output[output.length - 1])));
+        let bool = false;
+        lastStep.income.forEach((array: Array<string>, i: number) => {
+            array.map((item: string, j: number) => {
+                if (item.indexOf("X") >= 0) {
+                    bool = true;
+                    const split = item.split(" ");     
+                    lastStep.income[i][j] = 0 + " " + split[1];
+                }
+            })
+        })
+        if (bool) {
+            output.push(lastStep);
+        }
         return output;
     }
 

@@ -8,6 +8,7 @@ const Main = () => {
   const [rowCount, setRowCount] = useState(null);
   const { loading, request } = useHttp();
   const [analysisDataTables, setAnalysisDataTables] = useState([]);
+  const [objectiveFunction, setObjectiveFunction] = useState("");
 
   const handleAnalysisData = async () => {
     try {
@@ -76,6 +77,24 @@ const Main = () => {
           }
           return steps;
         });
+        const objFunc = res.data[res.data.length - 1].income;
+        let objFuncResult = 0;
+        let objFuncBody = "";
+        objFunc.forEach((array, i) => {
+          array.forEach((item, j) => {
+            const split = item.split(" ");
+            const x = Number(split[0]);
+            const n = Number(split[1].slice(1, -1));
+            objFuncResult += x * n;
+            if (i === objFunc.length - 1 && j === array.length - 1) {
+              objFuncBody += `${x} • ${n}`;
+            } else {
+              objFuncBody += `${x} • ${n} + `;
+            }
+          });
+        });
+        objFuncBody += ` = ${objFuncResult}`;
+        setObjectiveFunction(objFuncBody);
       });
     } catch (e) {
       throw new Error("Error");
@@ -268,6 +287,14 @@ const Main = () => {
             </table>
           );
         })}
+      {objectiveFunction.length > 0 && <table className="table-function">
+        <caption>Objective Function</caption>
+        <tbody>
+          <tr key={1}>
+            <td key={1}>{objectiveFunction}</td>
+          </tr>
+        </tbody>
+      </table>}
     </div>
   );
 };
