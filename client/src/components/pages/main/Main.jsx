@@ -88,6 +88,8 @@ const Main = () => {
 
   const handleColumnCountChange = (event) => {
     setColumnCount(parseInt(event.target.value));
+  };
+  const handleRowCountChange = (event) => {
     setRowCount(parseInt(event.target.value));
   };
 
@@ -156,9 +158,14 @@ const Main = () => {
       <div className="menu">
         <div className="field">
           <input
+            value={rowCount}
+            onChange={handleRowCountChange}
+            placeholder="Towers"
+          ></input>
+          <input
             value={columnCount}
             onChange={handleColumnCountChange}
-            placeholder="Matrix size"
+            placeholder="Entities"
           ></input>
         </div>
 
@@ -188,7 +195,7 @@ const Main = () => {
         </div>
       </div>
       <table className="table-input">
-      <caption>Table</caption>
+        <caption>Table</caption>
         <tbody>
           {data.map((row, rowIndex) => (
             <tr key={rowIndex}>
@@ -225,25 +232,35 @@ const Main = () => {
         analysisDataTables.map((table, index) => {
           return (
             <table className="table-analysis">
-               <caption>Step {index + 1}</caption>
+              <caption>Step {index + 1}</caption>
               <tbody>
                 {table.map((row, rowIndex) => (
                   <tr key={rowIndex}>
                     {row.map((cell, columnIndex) => {
                       let choice = false;
-                      if ((cell + "").indexOf("(") >= 0 && (cell + "").indexOf("X") === -1) {
+                      if (
+                        (cell + "").indexOf("(") >= 0 &&
+                        (cell + "").indexOf("X") === -1
+                      ) {
                         choice = true;
                       }
-                      return <td key={columnIndex}  style={
-                        choice 
-                          //? { background: "#ffff79" }
-                          ? { background: "#afffbb" }
-                          : { background: "white" } &&
-                            (rowIndex === 0 || columnIndex === 0) &&
-                            !(rowIndex === 0 && columnIndex === 0)
-                          ? { background: "#efefef" }
-                          : { background: "white" }
-                      }>{cell}</td>;
+                      return (
+                        <td
+                          key={columnIndex}
+                          style={
+                            choice
+                              ? //? { background: "#ffff79" }
+                                { background: "#afffbb" }
+                              : { background: "white" } &&
+                                (rowIndex === 0 || columnIndex === 0) &&
+                                !(rowIndex === 0 && columnIndex === 0)
+                              ? { background: "#efefef" }
+                              : { background: "white" }
+                          }
+                        >
+                          {cell}
+                        </td>
+                      );
                     })}
                   </tr>
                 ))}
@@ -251,7 +268,6 @@ const Main = () => {
             </table>
           );
         })}
-   
     </div>
   );
 };
