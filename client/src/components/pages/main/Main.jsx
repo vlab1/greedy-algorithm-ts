@@ -79,7 +79,7 @@ const Main = () => {
         });
         const objFunc = res.data[res.data.length - 1].income;
         let objFuncResult = 0;
-        let objFuncBody = "";
+        let objFuncBody = "F = ";
         objFunc.forEach((array, i) => {
           array.forEach((item, j) => {
             const split = item.split(" ");
