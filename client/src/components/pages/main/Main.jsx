@@ -128,7 +128,9 @@ const Main = () => {
     }
     setData(newData);
     setAnalysisDataTables([]);
+    setObjectiveFunction("");
   };
+
 
   const handleCellChange = (event, rowIndex, columnIndex) => {
     const value = event.target.value;
@@ -138,6 +140,7 @@ const Main = () => {
       return newData;
     });
     setAnalysisDataTables([]);
+    setObjectiveFunction("");
   };
 
   const handleGenerateData = () => {
@@ -170,6 +173,7 @@ const Main = () => {
     }
     setData(newData);
     setAnalysisDataTables([]);
+    setObjectiveFunction("");
   };
 
   return (
