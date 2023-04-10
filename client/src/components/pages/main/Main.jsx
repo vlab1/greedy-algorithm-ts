@@ -6,6 +6,7 @@ const Main = () => {
   const [data, setData] = useState([]);
   const [columnCount, setColumnCount] = useState(null);
   const [rowCount, setRowCount] = useState(null);
+  const [valueU, setValueU] = useState(null);
   const { loading, request } = useHttp();
   const [analysisDataTables, setAnalysisDataTables] = useState([]);
   const [objectiveFunction, setObjectiveFunction] = useState("");
@@ -108,6 +109,9 @@ const Main = () => {
   const handleColumnCountChange = (event) => {
     setColumnCount(parseInt(event.target.value));
   };
+  const handleUChange = (event) => {
+    setValueU(parseInt(event.target.value));
+  };
   const handleRowCountChange = (event) => {
     setRowCount(parseInt(event.target.value));
   };
@@ -144,7 +148,6 @@ const Main = () => {
   };
 
   const handleGenerateData = () => {
-    const U = 20;
     const newData = [];
     const topRow = [""];
     for (let i = 0; i < columnCount + 1; i++) {
@@ -163,9 +166,9 @@ const Main = () => {
       for (let j = 0; j < columnCount + 1; j++) {
         if (!(i === rowCount && j === columnCount)) {
           if (i === rowCount || j === columnCount) {
-            newRow.push(randomIntFromInterval(1, 25) * U * 4 + "");
+            newRow.push(randomIntFromInterval(1, 25) * valueU * 4 + "");
           } else {
-            newRow.push(randomIntFromInterval(1, 25) * U + "");
+            newRow.push(randomIntFromInterval(1, 25) * valueU + "");
           }
         }
       }
@@ -189,6 +192,11 @@ const Main = () => {
             value={columnCount}
             onChange={handleColumnCountChange}
             placeholder="Entities"
+          ></input>
+          <input
+            value={valueU}
+            onChange={handleUChange}
+            placeholder="U"
           ></input>
         </div>
 
@@ -217,8 +225,8 @@ const Main = () => {
           </button>
         </div>
       </div>
-      <table className="table-input">
-        <caption>Table</caption>
+      {data.length > 0 ? <table className="table-input">
+        <caption>Table</caption> 
         <tbody>
           {data.map((row, rowIndex) => (
             <tr key={rowIndex}>
@@ -245,7 +253,7 @@ const Main = () => {
             </tr>
           ))}
         </tbody>
-      </table>
+      </table>: null}
       <div
         style={loading ? { display: "block" } : { display: "none" }}
         className="loader"
@@ -291,14 +299,18 @@ const Main = () => {
             </table>
           );
         })}
-      {objectiveFunction.length > 0 && <table className="table-function">
-        <caption>Objective Function</caption>
-        <tbody>
-          <tr key={1}>
-            <td key={1}>{objectiveFunction}</td>
-          </tr>
-        </tbody>
-      </table>}
+        <div className="function">
+        {objectiveFunction.length > 0 && (
+          <table className="table-function">
+            <caption>Objective Function</caption>
+            <tbody>
+              <tr key={1}>
+                <td key={1}>{objectiveFunction}</td>
+              </tr>
+            </tbody>
+          </table>
+        )}
+      </div>
     </div>
   );
 };
