@@ -6,8 +6,8 @@
 
   border-collapse: collapse;
   border-radius: 5px;
-  border-style: hidden;
-  box-shadow: 0 0 0 1px rgb(56, 56, 56);
+  border-style: hidden; /* hide standard table (collapsed) border */
+  box-shadow: 0 0 0 1px rgb(56, 56, 56); /* this draws the table border  */
   margin-bottom: 50px;
   tbody {
     border-radius: 10px;
@@ -17,7 +17,7 @@
     border: 1px solid rgb(56, 56, 56);
   }
   input {
-    width: 175px;
+    width: 125px;
     padding: 10px;
     font-size: 20px;
     color: rgb(0, 0, 0);
@@ -42,15 +42,15 @@
 
   border-collapse: collapse;
   border-radius: 5px;
-  border-style: hidden;
-  box-shadow: 0 0 0 1px rgb(56, 56, 56); 
+  border-style: hidden; /* hide standard table (collapsed) border */
+  box-shadow: 0 0 0 1px rgb(56, 56, 56); /* this draws the table border  */
   margin-bottom: 50px;
   tbody {
     border-radius: 10px;
     overflow: scroll;
   }
   td {
-    width: 175px;
+    width: 125px;
     padding: 10px;
     font-size: 20px;
     color: rgb(0, 0, 0);
@@ -65,40 +65,6 @@
     margin-bottom: 10px;
   }
 }
-
-
-.table-function {
-  margin-top: 40px;
-  margin-left: auto;
-  margin-right: auto;
-  background-color: rgba(10, 10, 10, 0);
-
-  border-collapse: collapse;
-  border-radius: 5px;
-  border-style: hidden; 
-  box-shadow: 0 0 0 1px rgb(56, 56, 56); 
-  margin-bottom: 50px;
-  tbody {
-    border-radius: 10px;
-    overflow: scroll;
-  }
-  td {
-    width: 100%;
-    padding: 10px;
-    font-size: 20px;
-    color: rgb(0, 0, 0);
-    border: 1px solid rgb(56, 56, 56);
-  }
-  caption {
-    font-size: 20px;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    font-weight: 500;
-    color: #000;
-    margin-bottom: 10px;
-  }
-}
-
 
 .main {
   margin-left: auto;
@@ -137,6 +103,7 @@
   width: 40%;
   height: 120%;
   border: 1px solid lightgrey;
+  padding-left: 15px;
   outline: none;
   border-radius: 5px;
   font-size: 22px;
@@ -185,6 +152,40 @@
   animation: spin 2s linear infinite;
 }
 
+
+.table-function {
+  margin-top: 40px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: rgba(10, 10, 10, 0);
+
+  border-collapse: collapse;
+  border-radius: 5px;
+  border-style: hidden; 
+  box-shadow: 0 0 0 1px rgb(56, 56, 56); 
+  margin-bottom: 50px;
+  tbody {
+    border-radius: 10px;
+    overflow: scroll;
+  }
+  td {
+    width: 100%;
+    padding: 10px;
+    font-size: 20px;
+    color: rgb(0, 0, 0);
+    border: 1px solid rgb(56, 56, 56);
+  }
+  caption {
+    font-size: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 500;
+    color: #000;
+    margin-bottom: 10px;
+  }
+}
+
+
 .function{
   display: grid;
   background: #ffffff;
@@ -196,6 +197,7 @@
   margin-left: auto;
   margin-right: auto;
 }
+
 
 @keyframes spin {
   0% {

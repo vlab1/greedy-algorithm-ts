@@ -1,26 +1,35 @@
-interface TowerDefenceInput {
+ interface Analysis {
     columns: Array<string>;
     rows: Array<string>;
-    income: Array<Array<number>>;
-    rowConstraint: Array<number>;
-    colConstraint: Array<number>;
-    efficiency: Array<number>;
+    data: Array<Array<number>>;
+    columns_N: Array<number>;
+    columns_S: Array<number>;
+    columns_y: Array<number>;
+    rows_H: Array<number>;
+    rows_L: Array<Array<number>>;
+    rows_z: Array<number>;
 }
 
-interface TowerDefenseOutput {
-    columns: Array<string>;
-    rows: Array<string>;
-    income: Array<Array<string>>;
-    rowConstraint: Array<number>;
-    colConstraint: Array<number>;
-    efficiency: Array<number>;
-}
-[];
-
-interface ArrayElement {
-    value: number;
+interface Point {
     row: number;
-    col: number;
+    column: number;
+    data: number;
 }
 
-export { TowerDefenceInput, TowerDefenseOutput, ArrayElement };
+interface MyError {
+    error: boolean;
+}
+
+interface Assignment {
+    maxTotalDamage: number;
+    result: Point[];
+}
+
+interface DownloadData {
+    assignment: Assignment,
+    data: Array<Array<string>>
+}
+
+
+
+export {Analysis, Point, Assignment, DownloadData, MyError}

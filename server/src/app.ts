@@ -5,6 +5,10 @@ import morgan from 'morgan';
 import Controller from '@/utils/interfaces/controller.interface';
 import ErrorMiddleware from '@/middleware/error.middleware';
 import helmet from 'helmet';
+import  PointModel  from '@/resources/point/point.model';
+import EntityModel from '@/resources/entity/entity.model';
+import DamageModel from '@/resources/damage/damage.model';
+import { databaseConnection } from '@/configs/connection.config';
 
 class App {
     public express: Application;
@@ -13,6 +17,7 @@ class App {
     constructor(controllers: Controller[], port: number) {
         this.express = express();
         this.port = port;
+        this.initialiseDatabaseConnection();
         this.initialiseMiddleware();
         this.initialiseControllers(controllers);
         this.initialiseErrorHandling();
@@ -35,6 +40,12 @@ class App {
 
     private initialiseErrorHandling(): void {
         this.express.use(ErrorMiddleware);
+    }
+
+    private async initialiseDatabaseConnection(): Promise<void> {
+        this.sequelize = databaseConnection(PointModel, EntityModel, DamageModel);
+        await this.sequelize.authenticate();
+        await this.sequelize.sync({ alter: true });
     }
 
     public listen(): void {
