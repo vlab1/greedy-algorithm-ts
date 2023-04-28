@@ -144,7 +144,7 @@ class AnalysisService {
                 entities_ids.sort((a, b) => a - b);
                 const analysis = this.lookBestOption(data);
                 if (analysis instanceof Error || 'error' in analysis) {
-                    const damage = data.data.flatMap((array, point_row) => array.map((item, entity_column) => ({
+                    const damage = data.data.flatMap((array, entity_column) => array.map((item, point_row) => ({
                         entity_id: entities_ids[entity_column],
                         point_id: points_ids[point_row],
                         C: item,
@@ -153,7 +153,7 @@ class AnalysisService {
                     yield this.damage.bulkCreate(damage);
                 }
                 else {
-                    const damage = data.data.flatMap((array, point_row) => array.map((item, entity_column) => ({
+                    const damage = data.data.flatMap((array, entity_column) => array.map((item, point_row) => ({
                         entity_id: entities_ids[entity_column],
                         point_id: points_ids[point_row],
                         C: item,
@@ -293,14 +293,14 @@ class AnalysisService {
                     else {
                         array.push(entitiesData[i - 1].name_A);
                         for (let m = 0; m < damageArray.length; m++) {
-                            array.push(damageArray[i - 1][m].C + '');
-                            if (damageArray[i - 1][m].x === true) {
+                            array.push(damageArray[m][i - 1].C + '');
+                            if (damageArray[m][i - 1].x === true) {
                                 assignment.result.push({
-                                    row: i - 1,
-                                    column: m,
-                                    data: Number(damageArray[i - 1][m].C),
+                                    row: m,
+                                    column: i - 1,
+                                    data: Number(damageArray[m][i - 1].C),
                                 });
-                                assignment.maxTotalDamage += Number(damageArray[i - 1][m].C);
+                                assignment.maxTotalDamage += Number(damageArray[m][i - 1].C);
                             }
                         }
                         array.push(entitiesData[i - 1].y === true ? '1' : '0');

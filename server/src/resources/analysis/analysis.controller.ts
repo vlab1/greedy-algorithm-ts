@@ -135,7 +135,7 @@ class AnalysisController implements Controller {
     ): Promise<Response | void> => {
         try {
             const analysis = await this.AnalysisService.find();
-
+            
             res.status(201).json({ data: analysis });
         } catch (error: any) {
             next(new HttpException(400, error.message));

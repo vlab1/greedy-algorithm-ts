@@ -146,22 +146,26 @@ class AnalysisService {
                     points_ids.push(point.dataValues.point_id);
                 })
             );
+
             points_ids.sort((a: any, b: any) => a - b);
             entities_ids.sort((a: any, b: any) => a - b);
+
             const analysis = this.lookBestOption(data);
+
             if (analysis instanceof Error || 'error' in analysis) {
-                const damage = data.data.flatMap((array, point_row) =>
-                    array.map((item, entity_column) => ({
+                const damage = data.data.flatMap((array, entity_column) =>
+                    array.map((item, point_row) => ({
                         entity_id: entities_ids[entity_column],
                         point_id: points_ids[point_row],
                         C: item,
                         x: false,
                     }))
                 );
+
                 await this.damage.bulkCreate(damage);
             } else {
-                const damage = data.data.flatMap((array, point_row) =>
-                    array.map((item, entity_column) => ({
+                const damage = data.data.flatMap((array, entity_column) =>
+                    array.map((item, point_row) => ({
                         entity_id: entities_ids[entity_column],
                         point_id: points_ids[point_row],
                         C: item,
@@ -327,15 +331,15 @@ class AnalysisService {
                 } else {
                     array.push(entitiesData[i - 1].name_A);
                     for (let m = 0; m < damageArray.length; m++) {
-                        array.push(damageArray[i - 1][m].C + '');
-                        if (damageArray[i - 1][m].x === true) {
+                        array.push(damageArray[m][i - 1].C + '');
+                        if (damageArray[m][i - 1].x === true) {
                             assignment.result.push({
-                                row: i - 1,
-                                column: m,
-                                data: Number(damageArray[i - 1][m].C),
+                                row: m,
+                                column: i - 1,
+                                data: Number(damageArray[m][i - 1].C),
                             });
                             assignment.maxTotalDamage += Number(
-                                damageArray[i - 1][m].C
+                                damageArray[m][i - 1].C
                             );
                         }
                     }

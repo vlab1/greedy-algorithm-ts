@@ -213,6 +213,7 @@ const Main = () => {
       }
       setData(newData);
       setAnalysisData({});
+      setAnalysisDataTables([]);
     }
   };
 
@@ -337,6 +338,7 @@ const Main = () => {
       }
       setData(newData);
       setAnalysisData({});
+      setAnalysisDataTables([]);
     }
   };
   const array = [];
@@ -444,7 +446,7 @@ const Main = () => {
         className="loader"
       ></div>
 
-      {analysisDataTables.length > 0 &&
+      {(analysisDataTables.length > 0 && data.length > 0) &&
         analysisDataTables.map((item, index) => {
           const el = analysisDataTables[index];
           array.push(el);
@@ -479,7 +481,7 @@ const Main = () => {
                           >
                             {cell}
                           </td>
-                        ) : null;
+                        ) : null
                       })}
                     </tr>
                   );
@@ -496,7 +498,7 @@ const Main = () => {
         </table>
       )}
 
-      <div className="function">
+      {/* <div className="function">
         {objectiveFunction.length > 0 && (
           <table className="table-function">
             <caption>Objective Function</caption>
@@ -507,7 +509,7 @@ const Main = () => {
             </tbody>
           </table>
         )}
-      </div>
+      </div> */}
     </div>
   );
 };
