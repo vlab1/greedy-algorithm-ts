@@ -358,6 +358,7 @@ class AnalysisService {
         }
     }
 
+
     public async greedyAlgorithm(
         columns: Array<string>,
         rows: Array<string>,
@@ -381,6 +382,7 @@ class AnalysisService {
                 rows_L,
                 rows_z,
             };
+
             function getMax(array: Array<Array<number>>): Point {
                 let maxElement = {
                     data: array[0][0],
@@ -414,27 +416,59 @@ class AnalysisService {
             }
             const dataCopy = JSON.parse(JSON.stringify(input.data));
             const output = [] as Array<Point>;
+            const two = [] as any;
             while (!algorithm_end(dataCopy)) {
                 const max = getMax(dataCopy);
+                const arr = [] as any;
                 if (
                     input.columns_S[max.row] > input.rows_H[max.column] ||
                     !input.rows_L[max.column].includes(input.columns_N[max.row])
                 ) {
+                    output.push({
+                        row: max.row,
+                        column: max.column,
+                        data: max.data,
+                        background: '#fffbaf',
+                        type: 'notselected',
+                    });
+                    arr.push(null);
                     dataCopy[max.row][max.column] = 0;
                 } else {
                     output.push({
                         row: max.row,
                         column: max.column,
                         data: max.data,
+                        background: '#afffbb',
+                        type: 'selected',
                     });
                     for (let i = 0; i < dataCopy[max.row].length; i++) {
+                        if (i !== max.column && output.filter((item) => item.row === max.row && item.column === i).length <= 0) {
+                            output.push({
+                                row: max.row,
+                                column: i,
+                                data: dataCopy[max.row][i],
+                                background: '#fffbaf',
+                                type: 'notselected',
+                            });
+                        }
                         dataCopy[max.row][i] = 0;
                     }
                     for (let i = 0; i < dataCopy.length; i++) {
+                        if (i !== max.row && output.filter((item) => item.row === i && item.column === max.column).length <= 0) {
+                            output.push({
+                                row: i,
+                                column: max.column,
+                                data: dataCopy[i][max.column],
+                                background: '#fffbaf',
+                                type: 'notselected',
+                            });
+                        }
                         dataCopy[i][max.column] = 0;
                     }
+                    two.push(arr);
                 }
             }
+
             return output;
         } catch (error: any) {
             throw new Error(error.message);

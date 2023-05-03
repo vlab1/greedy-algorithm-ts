@@ -95,15 +95,20 @@ const Main = () => {
           let sum = 0;
           for (let i = 0; i < saveData.data.length; i++) {
             for (let j = 0; j < saveData.data[i].length; j++) {
-              const x = res.data.filter((item) => item.column === j && item.row === i).length;
+              const x = res.data.filter(
+                (item) =>
+                  item.column === j &&
+                  item.row === i &&
+                  item.type === "selected"
+              ).length;
               result += `${x} • ${saveData.data[i][j]} + `;
               sum += saveData.data[i][j] * x;
             }
           }
           result = result.slice(0, -2);
-          result += ` = ${sum}`
+          result += ` = ${sum}`;
           return result;
-        })
+        });
       });
     } catch (e) {
       throw new Error("Error");
@@ -342,6 +347,7 @@ const Main = () => {
     }
   };
   const array = [];
+
   return (
     <div>
       <div className="menu">
@@ -446,7 +452,8 @@ const Main = () => {
         className="loader"
       ></div>
 
-      {(analysisDataTables.length > 0 && data.length > 0) &&
+      {analysisDataTables.length > 0 &&
+        data.length > 0 &&
         analysisDataTables.map((item, index) => {
           const el = analysisDataTables[index];
           array.push(el);
@@ -458,12 +465,30 @@ const Main = () => {
                   return (
                     <tr key={rowIndex}>
                       {row.map((cell, columnIndex) => {
+                        let el1 = null;
                         const bool =
                           array.filter(
                             (el) =>
                               el.row === rowIndex - 1 &&
                               el.column === columnIndex - 1
                           ).length >= 1;
+                        let backgroundCell = el.background;
+                        if (
+                          analysisDataTables.filter(
+                            (item) =>
+                              item.column === columnIndex - 1 &&
+                              item.row === rowIndex - 1
+                          ).length > 0
+                        ) {
+                          let element = analysisDataTables.filter(
+                            (item) =>
+                              item.column === columnIndex - 1 &&
+                              item.row === rowIndex - 1
+                          )[0];
+                          backgroundCell = element.background;
+                          el1 = element
+                        }
+        
                         return !(
                           rowIndex === rowCount + 1 ||
                           columnIndex === columnCount + 1
@@ -475,13 +500,16 @@ const Main = () => {
                               !(rowIndex === 0 && columnIndex === 0)
                                 ? { background: "#efefef" }
                                 : bool
-                                ? { background: "#afffbb" }
+                                ? // ? { background: "#afffbb" }
+                                  { background: backgroundCell }
                                 : { background: "white" }
                             }
                           >
-                            {cell}
+                            {!bool ? cell : el1?.type === "notselected" ? " 0": cell }
+                            {/* <br/>
+                            {columnIndex}{rowIndex} */}
                           </td>
-                        ) : null
+                        ) : null;
                       })}
                     </tr>
                   );
@@ -498,7 +526,7 @@ const Main = () => {
         </table>
       )}
 
-      {/* <div className="function">
+      <div className="function">
         {objectiveFunction.length > 0 && (
           <table className="table-function">
             <caption>Objective Function</caption>
@@ -509,7 +537,7 @@ const Main = () => {
             </tbody>
           </table>
         )}
-      </div> */}
+      </div>
     </div>
   );
 };

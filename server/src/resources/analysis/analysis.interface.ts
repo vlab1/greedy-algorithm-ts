@@ -32,6 +32,8 @@ interface Point {
     row: number;
     column: number;
     data: number;
+    background?: "#afffbb" | '#fffbaf' | "white"; 
+    type?: "selected" | "notselected" | "standart";
 }
 
 interface MyError {
